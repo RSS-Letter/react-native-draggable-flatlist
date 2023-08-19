@@ -128,28 +128,28 @@ function CellRendererComponent<T>(props: Props<T>) {
     itemLayoutAnimation,
   } = propsRef.current;
 
-  useEffect(() => {
-    // NOTE: Keep an eye on reanimated LayoutAnimation refactor:
-    // https://github.com/software-mansion/react-native-reanimated/pull/3332/files
-    // We might have to change the way we register/unregister LayouAnimations:
-    // - get native module: https://github.com/software-mansion/react-native-reanimated/blob/cf59766460d05eb30357913455318d8a95909468/src/reanimated2/NativeReanimated/NativeReanimated.ts#L18
-    // - register layout animation for tag: https://github.com/software-mansion/react-native-reanimated/blob/cf59766460d05eb30357913455318d8a95909468/src/reanimated2/NativeReanimated/NativeReanimated.ts#L99
-    if (!propsRef.current.enableLayoutAnimationExperimental) return;
-    const tag = findNodeHandle(viewRef.current);
+  // useEffect(() => {
+  //   // NOTE: Keep an eye on reanimated LayoutAnimation refactor:
+  //   // https://github.com/software-mansion/react-native-reanimated/pull/3332/files
+  //   // We might have to change the way we register/unregister LayouAnimations:
+  //   // - get native module: https://github.com/software-mansion/react-native-reanimated/blob/cf59766460d05eb30357913455318d8a95909468/src/reanimated2/NativeReanimated/NativeReanimated.ts#L18
+  //   // - register layout animation for tag: https://github.com/software-mansion/react-native-reanimated/blob/cf59766460d05eb30357913455318d8a95909468/src/reanimated2/NativeReanimated/NativeReanimated.ts#L99
+  //   if (!propsRef.current.enableLayoutAnimationExperimental) return;
+  //   const tag = findNodeHandle(viewRef.current);
 
-    runOnUI((t: number | null, _layoutDisabled) => {
-      "worklet";
-      if (!t) return;
-      const config = global.LayoutAnimationRepository.configs[t];
-      if (config) stashConfig(t, config);
-      const stashedConfig = getStashedConfig(t);
-      if (_layoutDisabled) {
-        global.LayoutAnimationRepository.removeConfig(t);
-      } else if (stashedConfig) {
-        global.LayoutAnimationRepository.registerConfig(t, stashedConfig);
-      }
-    })(tag, layoutAnimationDisabled);
-  }, [layoutAnimationDisabled]);
+  //   runOnUI((t: number | null, _layoutDisabled) => {
+  //     "worklet";
+  //     if (!t) return;
+  //     const config = global.LayoutAnimationRepository.configs[t];
+  //     if (config) stashConfig(t, config);
+  //     const stashedConfig = getStashedConfig(t);
+  //     if (_layoutDisabled) {
+  //       global.LayoutAnimationRepository.removeConfig(t);
+  //     } else if (stashedConfig) {
+  //       global.LayoutAnimationRepository.registerConfig(t, stashedConfig);
+  //     }
+  //   })(tag, layoutAnimationDisabled);
+  // }, [layoutAnimationDisabled]);
 
   return (
     <Animated.View
